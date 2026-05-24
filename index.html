@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Japanese</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+  <header class="header">
+    <h1>Study Japanese</h1>
+    <p>Flashcards e quiz para iniciantes</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Flashcards -->
+    <section class="card">
+      <h2>Flashcards</h2>
+
+      <div class="flashcard">
+        <p id="jp-word">こんにちは</p>
+        <p id="pt-word">Olá</p>
+      </div>
+
+      <button id="next-card">Próximo</button>
+    </section>
+
+    <!-- Quiz -->
+    <section class="card">
+      <h2>Quiz</h2>
+
+      <p id="question">Carregando...</p>
+
+      <div id="options"></div>
+
+      <p id="feedback"></p>
+      <p>Pontos: <span id="score">0</span></p>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
