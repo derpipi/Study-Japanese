@@ -1,5 +1,5 @@
 // =====================
-// Flashcards
+// DATA (conteúdo separado da lógica)
 // =====================
 
 const cards = [
@@ -8,27 +8,6 @@ const cards = [
   { jp: "すみません", pt: "Desculpa / Com licença" },
   { jp: "さようなら", pt: "Adeus" }
 ];
-
-let cardIndex = 0;
-
-const jpWord = document.getElementById("jp-word");
-const ptWord = document.getElementById("pt-word");
-const nextCardBtn = document.getElementById("next-card");
-
-function updateCard() {
-  const card = cards[cardIndex];
-  jpWord.textContent = card.jp;
-  ptWord.textContent = card.pt;
-}
-
-nextCardBtn.addEventListener("click", () => {
-  cardIndex = (cardIndex + 1) % cards.length;
-  updateCard();
-});
-
-// =====================
-// Quiz
-// =====================
 
 const quiz = [
   {
@@ -43,43 +22,106 @@ const quiz = [
   }
 ];
 
-let qIndex = 0;
+// =====================
+// STATE (estado do app)
+// =====================
+
+let cardIndex = 0;
+let quizIndex = 0;
 let score = 0;
+
+// =====================
+// ELEMENTOS DOM
+// =====================
+
+const jpWord = document.getElementById("jp-word");
+const ptWord = document.getElementById("pt-word");
+const nextCardBtn = document.getElementById("next-card");
 
 const questionEl = document.getElementById("question");
 const optionsEl = document.getElementById("options");
 const feedbackEl = document.getElementById("feedback");
 const scoreEl = document.getElementById("score");
 
-function loadQuestion() {
-  const q = quiz[qIndex];
+// =====================
+// FLASHCARDS
+// =====================
 
-  questionEl.textContent = q.question;
+function renderCard() {
+  const { jp, pt } = cards[cardIndex];
+
+  jpWord.textContent = jp;
+  ptWord.textContent = pt;
+}
+
+function nextCard() {
+  cardIndex = (cardIndex + 1) % cards.length;
+  renderCard();
+}
+
+nextCardBtn.addEventListener("click", nextCard);
+
+// =====================
+// QUIZ HELPERS
+// =====================
+
+// embaralhar opções (Fisher-Yates)
+function shuffle(array) {
+  const arr = [...array];
+
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+
+  return arr;
+}
+
+// =====================
+// QUIZ LOGIC
+// =====================
+
+function renderQuestion() {
+  const current = quiz[quizIndex];
+
+  questionEl.textContent = current.question;
   optionsEl.innerHTML = "";
   feedbackEl.textContent = "";
 
-  q.options.forEach(option => {
-    const btn = document.createElement("button");
-    btn.textContent = option;
+  const options = shuffle(current.options);
 
-    btn.addEventListener("click", () => {
-      if (option === q.answer) {
-        score++;
-        feedbackEl.textContent = "Correto ✓";
-      } else {
-        feedbackEl.textContent = "Errado ✗";
-      }
+  options.forEach(option => {
+    const button = document.createElement("button");
+    button.textContent = option;
 
-      scoreEl.textContent = score;
+    button.addEventListener("click", () => handleAnswer(option, current.answer));
 
-      qIndex = (qIndex + 1) % quiz.length;
-
-      setTimeout(loadQuestion, 700);
-    });
-
-    optionsEl.appendChild(btn);
+    optionsEl.appendChild(button);
   });
 }
 
-loadQuestion();
-updateCard();
+function handleAnswer(selected, correct) {
+  if (selected === correct) {
+    score++;
+    feedbackEl.textContent = "Correto ✓";
+  } else {
+    feedbackEl.textContent = "Errado ✗";
+  }
+
+  scoreEl.textContent = score;
+
+  quizIndex = (quizIndex + 1) % quiz.length;
+
+  setTimeout(renderQuestion, 700);
+}
+
+// =====================
+// INIT
+// =====================
+
+function init() {
+  renderCard();
+  renderQuestion();
+}
+
+init();
