@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f6f8;
+  color: #111;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  background: #111;
+  color: #fff;
+}
+
+.container {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 10px;
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+}
+
+.flashcard {
+  text-align: center;
+  margin: 20px 0;
+}
+
+#jp-word {
+  font-size: 32px;
+}
+
+#pt-word {
+  color: #666;
+  margin-top: 5px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  background: #111;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+#options button {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  background: #eee;
+  color: #111;
+}
